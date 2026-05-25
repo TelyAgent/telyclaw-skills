@@ -3,10 +3,9 @@ name: briefing-generator
 description: >
   Generate topic briefings from Telegram channels. Use this skill when the user mentions
   "briefing", "newsletter", "digest", "message summary", "channel recap", "generate report",
-  "send briefing", "scheduled push", "channel roundup", "简报", "消息汇总", "频道摘要",
-  "生成报告", "发送简报", "定时推送", or "频道整理". Also applies when users want to
-  compile messages from multiple Telegram channels into structured summaries and deliver
-  them to others.
+  "send briefing", "scheduled push", or "channel roundup". Also applies when users want
+  to compile messages from multiple Telegram channels into structured summaries and
+  deliver them to others.
 ---
 
 # Briefing Generator
