@@ -1,14 +1,4 @@
----
-name: briefing-generator
-description: >
-  Generate topic briefings from Telegram channels. Use this skill when the user mentions
-  "briefing", "newsletter", "digest", "message summary", "channel recap", "generate report",
-  "send briefing", "scheduled push", or "channel roundup". Also applies when users want
-  to compile messages from multiple Telegram channels into structured summaries and
-  deliver them to others.
----
-
-# Briefing Generator
+# TG Message Assistant — Core Workflow
 
 Help users fetch messages from Telegram channels, format them into Markdown briefings
 using a selected template, deliver to Telegram contacts or via Gmail, and optionally
@@ -32,13 +22,13 @@ After each confirmation, echo it back clearly to ensure mutual understanding.
 
 ### Step 2: Fetch Channel Messages
 
-Use the **telegram_get_messages** tool to retrieve messages from each specified channel.
+Retrieve messages from each specified Telegram channel.
 
 Steps:
-1. If the user gave channel names instead of chat IDs, search or look up the channel
-   to get its chat ID first.
+1. If the user gave channel names instead of chat IDs, look up the channel
+   to get its identifier first.
 2. Based on the time range, estimate how many messages to fetch.
-3. Call telegram_get_messages for each channel to get messages within the time window.
+3. Fetch messages for each channel within the time window.
 4. Collect key metadata: timestamp, message text, view count, forward count.
 
 Guidelines:
@@ -49,7 +39,7 @@ Guidelines:
 ### Step 3: Generate the Briefing
 
 Pick one of the four templates based on user choice (default: `digest`).
-Read the corresponding `templates/<name>.md` file for the exact output format and rules,
+Read the corresponding `assets/templates/<name>.md` file for the exact output format and rules,
 then apply it to the fetched messages.
 
 | Template | File | Best for |
@@ -66,46 +56,22 @@ Then deliver via the method(s) the user specified.
 
 #### Telegram Delivery
 
-Use the **telegram_send_message** tool to send to the specified recipients.
+Send the briefing to the specified Telegram recipients.
 
-- If the user specified a contact name, resolve it to the correct chat ID first.
+- If the user specified a contact name, resolve it to the correct chat identifier first.
 - Telegram imposes a 4096-character limit per message. Split long briefings into
   multiple segments at natural paragraph boundaries. Label each segment "(1/3)", "(2/3)", etc.
 - Report back when sending is complete.
 
 #### Gmail Delivery
 
-Use the **gmail_message_send** tool to send the briefing via email.
+Send the briefing via email.
 
-**Plugin Detection (required on first use):**
-
-Before calling any Gmail tool, check whether the Gmail plugin is installed and available:
-
-1. Scan the available tools list for `gmail_*` prefixed tools (gmail_authorize,
-   gmail_message_send, etc.).
-2. If no such tools are found, the Gmail plugin is not installed. Tell the user:
-   > "The Gmail plugin is not installed. Please install the **Gmail** plugin from the
-   > telyclaw plugin marketplace, or visit https://github.com/TelyAgent/telyclaw-plugin-gmail
-   > for installation instructions. Let me know once it's set up and we'll continue."
-3. If the tools exist but are unavailable (e.g. expired authorization), proceed to
-   the authorization flow below.
-4. If everything is ready, proceed to send.
-
-**Authorization:**
-- The first send attempt will trigger the OAuth authorization flow.
-- On receiving an authorization error, use AskUserQuestion to ask the user for permission.
-- Call gmail_authorize — this will open a browser window for Google OAuth.
-- Tell the user: "A Google authorization page has been opened in your browser. Please
-  complete the authorization and let me know when you're done."
-- Once the user confirms, retry the send.
-
-**Send parameters:**
-- to: recipient email address
-- subject: `{Channel names} Briefing · {date range}`
-- text: the full Markdown briefing
-- confirm: true (required — the tool will refuse to send without this)
-
-The email body is the complete Markdown briefing, readable as-is.
+- Ensure the required email tools are installed and authorized before first use.
+- On first use, guide the user through the authorization flow if needed.
+- Send parameters: to, subject (`{Channel names} Briefing · {date range}`), and the
+  full Markdown briefing as body.
+- The email body is the complete Markdown briefing, readable as-is.
 
 #### Dual Delivery
 
@@ -114,10 +80,10 @@ The two channels are independent.
 
 ### Step 5: Set Up Schedule (Optional)
 
-If the user wants recurring generation, use OpenClaw's built-in cron functionality:
+If the user wants recurring generation, set up a recurring scheduled task:
 
 1. Confirm the cron expression meaning with the user (e.g. "This will run every day at 9:00 AM, correct?").
-2. Use the cron tool to create the scheduled task linked to the briefing configuration.
+2. Create the scheduled task linked to the briefing configuration.
 3. Tell the user the task has been created and how to view or cancel it.
 
 Cron expression examples:
