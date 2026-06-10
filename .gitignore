@@ -11,3 +11,6 @@
 *~
 
 .claude/settings.local.json
+
+# Environment
+.env
