@@ -1,9 +1,6 @@
-# telyclaw-skills
-
-TelyClaw platform skills repository. Each subdirectory is a self-contained skill published to [ClawHub](https://clawhub.ai/).
 # TelyClaw Skills
 
-A collection of agent skills compatible with Telyclaw (Claude Code), Codex CLI, and OpenClaw.
+A collection of agent skills published to [ClawHub](https://clawhub.ai/). Each subdirectory is a self-contained skill.
 
 ## Skills
 
@@ -51,11 +48,19 @@ telyclaw-skills/
 ├── .env.example                # Config template
 ├── scripts/
 │   └── publish.sh              # Publish automation
-├── briefing-generator/          # Example skill
-│   ├── SKILL.md                # Skill manifest (required)
-│   └── assets/                 # Supporting files
-│       └── templates/
-└── your-skill/                 # Each skill = one folder
+├── tg-message-assistant/       # TG Message Assistant skill
+│   ├── SKILL.md                # Telyclaw adapter (native tools)
+│   ├── core/
+│   │   └── prompt.md           # Platform-agnostic 5-step workflow
+│   ├── adapters/
+│   │   ├── codex/SKILL.md      # Codex adapter (browser-first)
+│   │   └── openclaw/SKILL.md   # OpenClaw adapter (browser-first)
+│   ├── assets/
+│   │   └── templates/          # Briefing templates (digest, detailed, topical, insights)
+│   ├── references/
+│   │   └── multi-platform-research.md
+│   └── scripts/
+└── your-skill/                 # Each new skill = one folder
     ├── SKILL.md
     └── ...
 ```
@@ -147,7 +152,7 @@ The default mode (`./scripts/publish.sh`, no `--skill`) runs `clawhub sync --all
 
 Example:
 ```
-To sync: - briefing-generator  LOCAL CHANGES latest 1.0.0; publish 1.0.1
+To sync: - tg-message-assistant  LOCAL CHANGES latest 1.0.0; publish 1.0.1
           Already synced: other-skill@1.0.0   ← skipped, no change
 ```
 
@@ -181,16 +186,3 @@ When you want to publish one specific skill unconditionally:
 | `metadata.openclaw.homepage` | No | URL to docs/repo |
 
 Full spec: [ClawHub SKILL.md Format](https://github.com/openclaw/clawhub/blob/main/docs/skill-format.md)
-tg-message-assistant/
-├── SKILL.md                    # Telyclaw adapter (native tools) — active by default
-├── core/
-│   └── prompt.md               # Platform-agnostic 5-step workflow
-├── adapters/
-│   ├── codex/SKILL.md          # Codex adapter (browser-first, MCP alternative)
-│   └── openclaw/SKILL.md       # OpenClaw adapter (browser-first, native alternative)
-├── assets/
-│   └── templates/              # Briefing templates (digest, detailed, topical, insights)
-├── references/
-│   └── multi-platform-research.md
-└── scripts/
-```

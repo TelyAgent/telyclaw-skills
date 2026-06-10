@@ -1,5 +1,5 @@
 ---
-name: tg-message-assitant
+name: tg-message-assistant
 description: >
   Generate topic briefings from Telegram channels. Use this skill when the user mentions
   "briefing", "newsletter", "digest", "message summary", "channel recap", "generate report",

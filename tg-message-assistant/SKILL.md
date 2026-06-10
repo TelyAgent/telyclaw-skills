@@ -6,6 +6,14 @@ description: >
   "send briefing", "scheduled push", or "channel roundup". Also applies when users want
   to compile messages from multiple Telegram channels into structured summaries and
   deliver them to others.
+version: 1.0.0
+metadata:
+  openclaw:
+    requires:
+      bins:
+        - curl
+    emoji: "\U0001F4F0"
+    homepage: https://github.com/TelyAgent/telyclaw-skills
 ---
 
 # TG Message Assistant (Telyclaw)
